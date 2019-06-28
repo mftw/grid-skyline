@@ -1,0 +1,160 @@
+// .testasd {  
+//   .element {
+//     width: 100vw;
+//     height: 100vh;
+//     background: 
+//       radial-gradient(
+//         farthest-side at bottom left,
+//         rgba(255, 0, 255, 0.5), 
+//         transparent
+//       ),
+//       radial-gradient(
+//         farthest-corner at bottom right,
+//         rgba(255, 50, 50, 0.5), 
+//         transparent 400px
+//       ),#246756;
+//   }
+// }
+
+@mixin gradient($color1: rgba(255, 0, 255, 0.5), 
+                $color2: rgba(255, 50, 50, 0.5), 
+                $color3: #246756) {
+
+  width: 100vw;
+  height: 100vh;
+  background: 
+    radial-gradient(
+      farthest-side at bottom left,
+      $color1, 
+      transparent
+    ),
+    radial-gradient(
+      farthest-corner at bottom right,
+      $color2, 
+      transparent 400px
+    ),$color3;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0; 
+  width: 100%;
+  height: 100%;
+}
+
+.city {
+  display: grid;
+  padding: 1rem 1rem 0;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 10vh 1fr;
+  height: 100vh;
+  grid-column-gap: 1rem;
+  align-items: end;
+  @include gradient(rgb(74, 150, 221), rgb(100, 188, 204), rgb(90, 75, 146));
+  // overflow: hidden;
+  
+  
+  @at-root {
+    .day {
+      .city {
+        background-image: linear-gradient(rgb(81, 132, 209) ,white);
+      }
+    }
+  }
+}
+
+@keyframes tv {
+  0% {
+    background: rgb(243, 216, 142);
+  }
+
+  50% {
+    background: rgb(221, 136, 102);
+  }
+  70% {
+    background: rgb(128, 204, 255);
+  }
+}
+
+.tower {
+  background-image: linear-gradient(to bottom, rgb(207, 207, 207), rgb(102, 102, 102));
+  grid-row: 2 / span all;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2%;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  .window {
+    height: 2.5vh;
+    width: 2.5vh;
+    background-color: rgb(205, 214, 125);
+    transition: background-color 300ms ease-in-out;
+    // margin: .1rem;
+
+    &.off {
+      background: #000;
+    }
+
+    @at-root {
+      .partymode {
+        .window.tv {
+          animation: tv .8s ease 1s infinite ;
+        }
+      }
+    }
+
+
+    &:nth-child(3n) {
+      background-color: rgb(183, 194, 81);
+    }
+    
+    &:nth-child(7n) {
+      background-color: rgb(194, 168, 81);
+    }
+  }
+
+  &.small {
+    height: 25%;
+  }
+
+  &.medium {
+    height: 50%;
+  }
+
+  &.high {
+    height: 75%;
+  }
+
+  &.full-height {
+    height: 100%;
+  }
+}
+
+.sun {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  // background: rgb(255, 233, 36);
+  background-image: radial-gradient(rgba(255, 233, 36, 1), rgba(255, 233, 36, 0));
+  // height: 100%;
+  // padding-top: 56,25%;
+  // width: 100%;
+  width: 10vmin;
+  height: 10vmin;
+  border-radius: 100%;
+  transition: background-image 500ms ease;
+  
+  
+  &.day {
+    // transform: scale(2);
+    background-image: radial-gradient(rgb(255, 244, 143), rgba(255, 233, 36, 0));
+  }
+}

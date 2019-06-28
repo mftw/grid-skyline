@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>grid-skyline</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="city">
+
+    <div class="sun">
+
+    </div>
+
+    <div class="tower small">
+
+    </div>
+
+    <div class="tower high">
+
+    </div>
+
+    <div class="tower small">
+
+    </div>
+
+    <div class="tower medium">
+
+    </div>
+
+    <div class="tower full-height">
+
+    </div>
+
+    <div class="tower medium">
+
+    </div>
+    <div class="tower high">
+
+    </div>
+  </div>
+
+  <script>
+    
+    var $ = (selector, opt) => {
+      const result = document.querySelectorAll(selector);
+
+      if (result.length === 0) {
+        console.warn(`Selector: "${selector}" not found`);
+        return null;
+      }
+
+      if (opt === 'all') {
+        return result;
+      }
+
+      if (result.length > 1 && !(opt === 'one')) {
+        return result;
+      }
+
+      return result[0];
+    }
+
+    const { body } = document;
+
+    const div = document.createElement('div');
+    // const div = createElement('div');
+    div.classList.add('window');
+    const towers = $('.tower');
+    towers[0].appendChild(div);
+
+    const singleWindow = $('.window', 'one');
+    const windowHeight = singleWindow.clientHeight;
+    const windowWidth = singleWindow.clientWidth;
+
+
+
+    towers.forEach((tower, i, orgArray) => {
+
+      const towerHeight = tower.clientHeight;
+
+      const towerWidth = tower.clientWidth;
+
+      const numberOfFloors = (Math.floor(towerHeight / windowHeight) - 3) || 1;
+      
+      const numberOfWindowsOnFloor = (Math.floor(towerWidth / windowWidth) - 1) || 1;
+
+      let numberOfWindows = (numberOfFloors * numberOfWindowsOnFloor) - 2;
+      // console.log("TCL: numberOfWindows", numberOfWindows)
+
+      for (let forI = 0; forI <= numberOfWindows; forI++) {
+
+        const newWindow = singleWindow.cloneNode(true);
+        tower.appendChild(newWindow);
+      }
+    })
+
+
+    const windows = $('.window', 'all');
+
+    windows.forEach(window => {
+      const off = Math.random() > 0.5 ? true : false;
+
+      if (off) {
+        window.classList.add('off')
+      } else {
+        window.classList.remove('off')
+      }
+
+      // window.classList.add('off')
+    })
+
+    let lightsFlicker = true;
+    let partymode = false;
+
+    const windowLoop = setInterval(() => {
+      if (lightsFlicker) {
+        windows.forEach(window => {
+          const off = Math.random() > 0.5 ? true : false;
+
+          if(off) {
+            window.classList.add('off');
+            window.classList.remove('tv');
+          } else {
+            window.classList.remove('off');
+            window.classList.add('tv');
+          }
+        })
+      }
+    }, 1500)
+
+    function toggleLightFlicker(e) {
+      lightsFlicker = !lightsFlicker;
+      const classToAdd = 'day';
+      if (!lightsFlicker) {
+        if (e) {
+          e.target.classList.add(classToAdd);
+        }
+        body.classList.add(classToAdd);
+        $('.window').forEach(window => window.classList.remove('off'));
+      } else {
+        if (e) {
+          e.target.classList.remove(classToAdd);
+        }
+        body.classList.remove(classToAdd)
+      }
+    }
+
+    function togglePartymode(e) {
+      partymode = !partymode;
+      if(partymode) {
+        if(!lightsFlicker){
+          lightsFlicker = true;
+        }
+        body.classList.add('partymode');
+      } else {
+        body.classList.remove('partymode');
+      }
+    }
+
+    const sun = $('.sun');
+    sun.addEventListener('click', toggleLightFlicker)
+    sun.addEventListener('dblclick', togglePartymode)
+
+  </script>
+</body>
+
+</html>
